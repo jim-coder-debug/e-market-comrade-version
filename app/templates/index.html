@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Products</h2>
+    <div class="products">
+        {% for product in products %}
+            <div class="product">
+                <h3><a href="{{ url_for('main.product_detail', product_id=product.id) }}">{{ product.name }}</a></h3>
+                <p>{{ product.description }}</p>
+                <p>Price: ${{ product.price }}</p>
+                <p>Category: {{ product.category }}</p>
+                <p>Status: {{ product.status }}</p>
+                {% if current_user.is_authenticated and current_user.id == product.seller_id %}
+                    <a href="{{ url_for('main.mark_purchased', product_id=product.id) }}">Mark as Purchased</a>
+                    <a href="{{ url_for('main.delete_product', product_id=product.id) }}">Delete</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

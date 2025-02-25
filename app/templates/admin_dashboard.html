@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Admin Dashboard</h2>
+    <h3>Products</h3>
+    <div class="products">
+        {% for product in products %}
+            <div class="product">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description }}</p>
+                <p>Price: ksh{{ product.price }}</p>
+                <p>Category: {{ product.category }}</p>
+                <p>Seller: {{ product.seller.username }}</p>
+                <a href="{{ url_for('main.delete_product', product_id=product.id) }}">Delete</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <h3>Users</h3>
+    <div class="users">
+        {% for user in users %}
+            <div class="user">
+                <p>{{ user.username }} - {{ user.email }}</p>
+                {% if not user.is_admin %}
+                    <a href="{{ url_for('main.delete_user', user_id=user.id) }}">Delete</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

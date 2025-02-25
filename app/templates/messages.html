@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Your Messages</h2>
+
+
+
+<h3>Received Messages</h3>
+<ul>
+    {% for message in received_messages %}
+        <li><strong>From:</strong> {{ message.sender.username }} - {{ message.content }} <em>{{ message.timestamp }}</em></li>
+    {% else %}
+        <li>No messages received.</li>
+    {% endfor %}
+</ul>
+
+<h3>Sent Messages</h3>
+<ul>
+    {% for message in sent_messages %}
+        <li><strong>To:</strong> {{ message.receiver.username }} - {{ message.content }} <em>{{ message.timestamp }}</em></li>
+    {% else %}
+        <li>No messages sent.</li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('main.index') }}" class="btn btn-primary">Back to Home</a>
+
+{% endblock %}

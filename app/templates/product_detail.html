@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="product-detail">
+    <h2>{{ product.name }}</h2>
+    <div class="product-image">
+       
+        {% if product.image %}
+            <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}" style="width: 300px; height: auto;">
+        {% else %}
+            <p>No image available.</p>
+        {% endif %}
+    </div>
+    <div class="product-info">
+        <p><strong>Description:</strong> {{ product.description }}</p>
+        <p><strong>Price:</strong> ksh{{ product.price }}</p>
+        <p><strong>Category:</strong> {{ product.category }}</p>
+        <p><strong>Seller:</strong> {{ product.seller.username }}</p>
+        <p><strong>Status:</strong> {{ product.status }}</p>
+    </div>
+
+    <!-- Add to Wishlist Button -->
+    {% if current_user.is_authenticated %}
+        {% if product in current_user.wishlist_products %}
+            <a href="{{ url_for('main.remove_from_wishlist', product_id=product.id) }}" class="btn btn-warning">Remove from Wishlist</a>
+        {% else %}
+            <a href="{{ url_for('main.add_to_wishlist', product_id=product.id) }}" class="btn btn-primary">Add to Wishlist</a>
+        {% endif %}
+    {% endif %}
+
+    <!-- Buy Now Button -->
+    {% if current_user.is_authenticated and current_user.id != product.seller_id %}
+        <a href="{{ url_for('main.buy_product', product_id=product.id) }}" class="btn btn-success">Buy Now</a>
+    {% endif %}
+
+    <!-- Reviews Section -->
+    <h3>Reviews</h3>
+    {% if product.reviews %}
+        <div class="reviews">
+            {% for review in product.reviews %}
+                <div class="review">
+                    <p><strong>{{ review.user.username }}</strong> - Rating: {{ review.rating }}/5</p>
+                    <p>{{ review.content }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No reviews yet.</p>
+    {% endif %}
+
+    <!-- Add Review Form -->
+    {% if current_user.is_authenticated %}
+        <h3>Add a Review</h3>
+        <form method="POST" action="{{ url_for('main.product_detail', product_id=product.id) }}">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.rating.label }}<br>
+                {{ form.rating() }}<br>
+                {% for error in form.rating.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.content.label }}<br>
+                {{ form.content() }}<br>
+                {% for error in form.content.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

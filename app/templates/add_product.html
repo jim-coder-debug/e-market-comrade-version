@@ -1,0 +1,41 @@
+<form method="POST" action="{{ url_for('main.add_product') }}" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.name.label }}<br>
+        {{ form.name(size=32) }}<br>
+        {% for error in form.name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div >
+        {{ form.description.label }}<br>
+        {{ form.description(size=45) }}<br>
+        {% for error in form.description.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.price.label }}<br>
+        {{ form.price(size=32) }}<br>
+        {% for error in form.price.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.category.label }}<br>
+        {{ form.category(size=7) }}<br>
+        {% for error in form.category.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.image.label }}<br>
+        {{ form.image() }}<br>
+        {% for error in form.image.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.submit() }}
+    </div>
+</form>

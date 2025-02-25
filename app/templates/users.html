@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Users</h2>
+<ul>
+    {% for user in users %}
+        <li class="useralignment">
+            {{ user.username }} 
+            <a href="{{ url_for('main.send_message', receiver_id=user.id) }}">Send Message</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

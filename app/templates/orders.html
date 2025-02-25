@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Your Orders</h2>
+    <div class="orders">
+        {% for order in current_user.orders %}
+            <div class="order">
+                <h3>{{ order.product.name }}</h3>
+                <p>Status: {{ order.status }}</p>
+                <p>Ordered on: {{ order.timestamp }}</p>
+            </div>
+        {% else %}
+            <p>You have no orders.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

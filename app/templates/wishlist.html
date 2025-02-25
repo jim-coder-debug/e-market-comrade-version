@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Your Wishlist</h2>
+    <div class="wishlist">
+        {% for product in current_user.wishlist_products %}
+            <div class="product">
+                <h3><a href="{{ url_for('main.product_detail', product_id=product.id) }}">{{ product.name }}</a></h3>
+                <p>{{ product.description }}</p>
+                <p>Price: ${{ product.price }}</p>
+                <p>Category: {{ product.category }}</p>
+                <a href="{{ url_for('main.remove_from_wishlist', product_id=product.id) }}">Remove from Wishlist</a>
+            </div>
+        {% else %}
+            <p>Your wishlist is empty.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
